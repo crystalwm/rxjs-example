@@ -1,0 +1,51 @@
+    <! DOCTYPE html>
+    <html>
+        <head>
+            <style type="text/css">
+                body {
+                    font-family: sans-serif;
+                    padding: 10px;
+                }
+                .alert-info {
+                    font-weight: bold;
+                    display: inline-block;
+                    margin-left: 20px;
+                }
+                .container {
+                    background-color: gainsboro;
+                    padding: 5px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="alert alert-info">
+                    <Button id="plus">+</Button>
+                    <Button id="minus">-</Button>
+                    Count: <span id="result">0</span>
+                </div>
+            </div>
+        </body>
+         <script type="text/javascript" src="./JS/rx.all.js"></script>
+        <script type="text/javascript">
+           var plus=document.querySelector('#plus');
+           var minus=document.querySelector('#minus');
+           var result=document.querySelector('#result');
+
+           var plusObservable=Rx.Observable.fromEvent(plus,'click');
+           var minusObservable=Rx.Observable.fromEvent(minus,'click');
+           plusObservable=plusObservable.map(1);
+           minusObservable=minusObservable.map(-1);
+           sourceObservable=plusObservable.merge(minusObservable);
+
+           sourceObservable
+            .scan(function(acc,curr){
+                    return acc+curr;
+                },0)
+            .subscribe(function(value){
+                result.innerHTML=value;
+           });
+        
+        </script>
+   
+    </html>
